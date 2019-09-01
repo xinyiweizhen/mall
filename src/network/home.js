@@ -6,9 +6,12 @@ export function getHomeData(){
 
     })
 }
-export function getHome(){
+export function getHomeGoods(type, page){
     return request({
-        url: "",
-        
+        url: "/home/data",
+        params:{
+            type,
+            page,
+        }
     })
 }
