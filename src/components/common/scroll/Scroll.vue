@@ -35,18 +35,31 @@ export default {
             click: true, //设置为true，better-scroll才不会阻止元素的点击事件（button元素除外）
         })
         //2.监听滚动事件
-        this.scroll.on('scroll',(position) =>{
-            //console.log(position)
-            this.$emit('scroll',position);  //向父组件传递滚动事件
-        })
+        if(this.probeType===2 || this.probeType===3 ){
+            this.scroll.on('scroll',(position) =>{
+                //console.log(position)
+                this.$emit('scroll',position);  //向父组件传递滚动事件
+            })
+        }
         //3.监听上拉加载事件
-        this.scroll.on('pullingUp',() =>{
-            this.$emit('pullingUp');
-        })
+        if(this.pullUpLoad){
+            this.scroll.on('pullingUp',() =>{
+                this.$emit('pullingUp');
+            })
+        }
     },
     methods:{
-        ScrollTop(x, y, time=300){
-            this.scroll.scrollTo(x, y, time);
+        ScrollTo(x, y, time=300){
+            this.scroll  && this.scroll.scrollTo(x, y, time);
+        },
+        finishPullUp(){
+            this.scroll && this.scroll.finishPullUp();
+        },
+        refresh(){
+            this.scroll && this.scroll.refresh();
+        },
+        getScrollY(){
+            return this.scroll ? this.scroll.y : 0;
         }
     }
 }

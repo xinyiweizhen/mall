@@ -1,6 +1,6 @@
 <template>
-    <div class="goods-item">
-        <img :src="goodsItem.show.img" alt="">
+    <div class="goods-item" @click="itemClick">
+        <img :src="goodsItem.show.img" alt="" @load="imageLoad">
         <div class="goods-info">
             <p>{{goodsItem.title}}</p>
             <span class="price">{{goodsItem.price}}</span>
@@ -18,6 +18,20 @@ export default {
             default(){
                 return {}
             }
+        }
+    },
+    methods: {
+        imageLoad(){  //监听图片是否加载完成事件，解决better-scroll的滚动高度bug
+            //因为这个组件和home组件隔了好几层组件，一层层传递事件有点麻烦
+            //所以这里通过事件总线的方式来传递事件
+            this.$bus.$emit('ImageLoaded');
+        },
+        itemClick(){
+            this.$router.push('detail')
+            this.$router.push({
+                path: 'detail',
+                query:
+            })
         }
     }
 }
