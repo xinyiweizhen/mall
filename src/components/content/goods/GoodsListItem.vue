@@ -53,11 +53,12 @@ export default {
 
   .goods-info .price {
     color: var(--color-high-text);
-    margin-right: 20px;
+    float: left;
   }
 
   .goods-info .like {
     position: relative;
+    float: right;
   }
 
   .goods-info .like::before {
