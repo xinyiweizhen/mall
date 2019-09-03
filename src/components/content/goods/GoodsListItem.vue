@@ -1,6 +1,6 @@
 <template>
     <div class="goods-item" @click="itemClick">
-        <img :src="goodsItem.show.img" alt="" @load="imageLoad">
+        <img :src="showImage" alt="" @load="imageLoad">
         <div class="goods-info">
             <p>{{goodsItem.title}}</p>
             <span class="price">{{goodsItem.price}}</span>
@@ -20,6 +20,16 @@ export default {
             }
         }
     },
+    data(){
+        return {
+
+        }
+    },
+    computed:{
+      showImage(){
+          return this.goodsItem.show.img || this.goodsItem.image || this.goodsItem.img
+      }
+    },
     methods: {
         imageLoad(){  //监听图片是否加载完成事件，解决better-scroll的滚动高度bug
             //因为这个组件和home组件隔了好几层组件，一层层传递事件有点麻烦
@@ -28,7 +38,7 @@ export default {
         },
         itemClick(){
             this.$router.push('detail/'+ this.goodsItem.iid)
-            /** 
+            /**
             this.$router.push({
                 path: 'detail',
                 query: this.goodsItem.iid,

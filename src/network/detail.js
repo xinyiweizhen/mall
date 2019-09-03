@@ -2,12 +2,18 @@ import { request } from "./request";
 
 export function getDetailData(iid){
     return request({
-        url: 'detail',
+        url: '/detail',
         params:{
             iid,
         }
     });
 }
+export function getRecommendData() {
+    return request({
+        url: '/recommend'
+    })
+}
+
 
 //封装商品信息的对象，把从服务器请求的分散的商品信息整合到一个对象中，面向对象开发
 export class GoodsInfo {
