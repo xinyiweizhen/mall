@@ -1,15 +1,16 @@
 <template>
   <div id="detail">
-      <detail-nav-bar class="nav-tabbar"/>
-      <scroll class="scroll" ref='detailsScroll'>
+      <detail-nav-bar class="nav-tabbar" @titleClick="selectTitle" :current-index="currentIndex"/>
+      <scroll class="scroll" ref='detailScroll' @scroll="ScrollContent" :probeType="3">
         <detail-swiper :topImages="topImages" />
         <goods-base-info :goods-info="goodsInfo" />
         <shop-base-info :shopInfo="shopInfo"/>
         <goods-detail-info :detailInfo="detailInfo" @imgLoad="imgLoaded"/>
-        <goods-params-info :paramInfo="goodsParamsInfo"/>
-        <goods-comment-info :commentInfo="goodsCommentInfo"/>
-         <goods-list :goods="recommendGoods"/>
+        <goods-params-info :paramInfo="goodsParamsInfo" ref="detailParams"/>
+        <goods-comment-info :commentInfo="goodsCommentInfo" ref="detailComment"/>
+         <goods-list :goods="recommendGoods" ref="detailRecommend" />
       </scroll>
+      <detail-bottom-bar />
 
   </div>
 </template>
@@ -22,6 +23,7 @@ import ShopBaseInfo from './childComponents/ShopBaseInfo';
 import GoodsDetailInfo from './childComponents/GoodsDetailInfo';
 import GoodsParamsInfo from './childComponents/GoodsParamsInfo';
 import GoodsCommentInfo from "./childComponents/GoodsCommentInfo";
+import DetailBottomBar from "./childComponents/DetailBottomBar";
 
 import GoodsList from "components/content/goods/GoodsList";
 import Scroll from 'components/common/scroll/Scroll'
@@ -39,6 +41,7 @@ export default {
         ShopBaseInfo,
         Scroll,
         GoodsList,
+        DetailBottomBar,
     },
     data(){
         return{
@@ -50,6 +53,8 @@ export default {
             goodsParamsInfo: {},
             goodsCommentInfo: {},
             recommendGoods: [],
+            themeOffsetTop: [],
+            currentIndex: 0,
         }
     },
     created(){
@@ -57,7 +62,7 @@ export default {
         this.goodsId=this.$route.params.goodsId;
         //2.请求数据
         getDetailData(this.goodsId).then((res)=>{
-            console.log(res);
+            //console.log(res);
             const data = res.result;
             //1.获取商品详情轮播图的图片
             this.topImages = data.itemInfo.topImages;
@@ -74,14 +79,42 @@ export default {
         });
         //3.请求推荐
         getRecommendData().then((res)=>{
-            console.log(res);
+            //console.log(res);
             this.recommendGoods = res.data.list;
         })
     },
     methods: {
         imgLoaded(){
-            this.$refs.detailsScroll.refresh();
+            this.$refs.detailScroll.refresh();
+            //获取四个标题距离顶部的滚动距离
+            this.themeOffsetTop = [];
+            this.themeOffsetTop.push(0);
+            //console.log(this.$refs.detailParams.$el.offsetTop);
+            this.themeOffsetTop.push(this.$refs.detailParams.$el.offsetTop - 48)
+            this.themeOffsetTop.push(this.$refs.detailComment.$el.offsetTop - 48)
+            this.themeOffsetTop.push(this.$refs.detailRecommend.$el.offsetTop - 48)
+            this.themeOffsetTop.push(Number.MAX_VALUE)
+        },
+        selectTitle(index){
+            this.$refs.detailScroll.ScrollTo(0, -this.themeOffsetTop[index], 500)
+        },
+        ScrollContent(position){
+            //console.log(position.y);
+            this.listenScrollTheme(-position.y)
+        },
+        listenScrollTheme(position){
+            let lenght = this.themeOffsetTop.length;
+            for (let i = 0; i < lenght; i++){
+                let offset = this.themeOffsetTop[i];
+                if(position >= offset && position < this.themeOffsetTop[i+1]){
+                    if(this.currentIndex !== i ){
+                        this.currentIndex = i;
+                    }
+                    break;
+                }
+            }
         }
+
     }
 }
 </script>
