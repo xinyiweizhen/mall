@@ -16,6 +16,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 import DetailNavBar from './childComponents/DetailNavBar';
 import DetailSwiper from "./childComponents/DetailSwiper";
 import GoodsBaseInfo from './childComponents/GoodsBaseInfo';
@@ -119,15 +121,22 @@ export default {
                 }
             }
         },
+        //使用vuex的辅助函数
+        ...mapActions({
+            addCart: 'addGoodsToCart'
+        }),
         addToCart(){
             //console.log("dianjile ");
             let goods={};
             goods.image = this.topImages[0];
             goods.title = this.goodsInfo.title;
             goods.desc = this.goodsInfo.desc;
-            goods.price = null;
+            goods.price = 59.5;
             goods.id = this.goodsId;
-            this.$store.dispatch('addGoodsToCart', goods)
+            // 将 `this.addCart(goods)` 映射为 `this.$store.dispatch('addGoodsToCart',goods)
+            this.addCart(goods).then(res =>{
+                this.$toast({message: '商品已成功添加到购物车'})
+            })
         }
 
     },

@@ -1,7 +1,9 @@
 <template>
-    <scroll class="scroll">
-        <cart-goods-list-item v-for="(item,index) in cartList" :key="index" :item-info='item'></cart-goods-list-item>
-    </scroll>
+    <div class="cart-list">
+        <scroll class="scroll">
+            <cart-goods-list-item v-for="(item,index) in cartList" :key="index" :item-info='item'></cart-goods-list-item>
+        </scroll>
+    </div>
 </template>
 
 <script>
@@ -27,7 +29,11 @@ export default {
 </script>
 
 <style scoped>
- .scroll{
-     height: calc(100% - 93px);
- }
+    .cart-list{
+        height: calc(100% - 93px - 44px);
+    }
+     .scroll{
+         height: 100%;
+         overflow: hidden;
+     }
 </style>
