@@ -3,7 +3,7 @@
     <nav-bar class="home-nav"><div slot="center">购物街</div></nav-bar>
     <tab-controller :titles = "titles" @switchTab="HomeSwitchTab" ref="TabController1" v-show="IsFixed" 
           class="tab-controller"/>
-    <scroll class="scroll" ref="scroll" :probeType="3" :pullUpLoad="true" 
+    <scroll class="scroll" ref="scroll" :probe-type="3" :pull-upLoad="true"
           @scroll="ScrollContent" @pullingUp="PullUpLoadMore">
       <home-swiper :banners="banners" @SwiperImageLoad="SwiperImageLoaded"/>
       <recommend-view :recommends="recommends" />
@@ -21,7 +21,6 @@ import NavBar from 'components/common/navbar/NavBar'
 import Scroll from 'components/common/scroll/Scroll'
 import TabController from 'components/content/tabcontroller/TabController'
 import GoodsList from 'components/content/goods/GoodsList'
-import BackTop from 'components/content/backtop/BackTop'
 
 
 import HomeSwiper from './childComponents/HomeSwiper'
@@ -33,8 +32,9 @@ import { getHomeData, getHomeGoods } from 'network/home'
 import { constants } from 'crypto';
 
 import { debounce } from 'common/utils';
+import { itemImgListenerMixin, backTopMixin } from "common/mixins";
 
-  export default {
+export default {
     name: "Home",
     components:{
       NavBar,
@@ -44,8 +44,8 @@ import { debounce } from 'common/utils';
       FeatureView,
       GoodsList,
       Scroll,
-      BackTop,
     },
+    mixins: [itemImgListenerMixin, backTopMixin], //混入goodslist的itemImagesloaded的事件监听
     data(){
       return {
         banners: [],
@@ -57,7 +57,6 @@ import { debounce } from 'common/utils';
           'sell': {page: 0, list: []}, 
         },
         currentType: 'pop',
-        IsShowBackTop: false,
         IsFixed:false,
         tabControllerOffsetTop: 0,
         ScrollOffsetY: 0,
@@ -78,11 +77,6 @@ import { debounce } from 'common/utils';
       
     },
     mounted(){
-      //监听goodsItem的图片是否加载完成
-      const refresh = debounce(this.$refs.scroll.refresh, 50)
-      this.$bus.$on('ImageLoaded',()=>{
-          refresh();
-      })
     },
     activated(){
       //console.log(this.ScrollOffsetY)
@@ -91,8 +85,10 @@ import { debounce } from 'common/utils';
     },
     deactivated(){
       //console.log(this.$refs.scroll.getScrollY())
+      //1.保存滚动的Y值
       this.ScrollOffsetY = this.$refs.scroll.getScrollY();
-
+      //2.取消item图片加载完成的事件监听
+      this.$bus.$off('ImageLoaded', this.itemImgListener)
     },
     methods:{
       /* 组件事件监听相关的方法 */
@@ -110,9 +106,6 @@ import { debounce } from 'common/utils';
         }
         this.$refs.TabController1.currentIndex = index;
         this.$refs.TabController2.currentIndex = index;
-      },
-      BackTop(){
-        this.$refs.scroll.ScrollTo(0, 0, 500);  //取到scroll组件的ScrollTo()方法完成回到顶部
       },
       ScrollContent(position){
         //console.log(position);

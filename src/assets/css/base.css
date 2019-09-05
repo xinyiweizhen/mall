@@ -1,5 +1,6 @@
 @import "./normalize.css";
 
+/** 全局定义一些css变量，变量可以在其他css文件中使用 */
 :root {
   --color-text: #666;
   --color-high-text: #ff5777;

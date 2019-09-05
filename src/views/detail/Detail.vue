@@ -1,17 +1,17 @@
 <template>
   <div id="detail">
       <detail-nav-bar class="nav-tabbar" @titleClick="selectTitle" :current-index="currentIndex"/>
-      <scroll class="scroll" ref='detailScroll' @scroll="ScrollContent" :probeType="3">
-        <detail-swiper :topImages="topImages" />
+      <scroll class="scroll" ref='scroll' @scroll="ScrollContent" :probe-type="3">
+        <detail-swiper :top-images="topImages" />
         <goods-base-info :goods-info="goodsInfo" />
         <shop-base-info :shopInfo="shopInfo"/>
-        <goods-detail-info :detailInfo="detailInfo" @imgLoad="imgLoaded"/>
-        <goods-params-info :paramInfo="goodsParamsInfo" ref="detailParams"/>
-        <goods-comment-info :commentInfo="goodsCommentInfo" ref="detailComment"/>
+        <goods-detail-info :detail-info="detailInfo" @imgLoad="imgLoaded"/>
+        <goods-params-info :param-info="goodsParamsInfo" ref="detailParams"/>
+        <goods-comment-info :comment-info="goodsCommentInfo" ref="detailComment"/>
          <goods-list :goods="recommendGoods" ref="detailRecommend" />
       </scroll>
-      <detail-bottom-bar />
-
+        <detail-bottom-bar @addToCart="addToCart"/>
+        <back-top @click.native="BackTop" v-show="IsShowBackTop"/>
   </div>
 </template>
 
@@ -29,6 +29,9 @@ import GoodsList from "components/content/goods/GoodsList";
 import Scroll from 'components/common/scroll/Scroll'
 
 import { getDetailData, getRecommendData, GoodsInfo, ShopInfo, GoodsParams } from 'network/detail'
+
+import { itemImgListenerMixin, backTopMixin} from "common/mixins";
+
 export default {
     name: "Detail",
     components: {
@@ -43,6 +46,7 @@ export default {
         GoodsList,
         DetailBottomBar,
     },
+    mixins: [itemImgListenerMixin, backTopMixin],
     data(){
         return{
             goodsId: null,
@@ -85,22 +89,23 @@ export default {
     },
     methods: {
         imgLoaded(){
-            this.$refs.detailScroll.refresh();
+            this.$refs.scroll.refresh();
             //获取四个标题距离顶部的滚动距离
             this.themeOffsetTop = [];
             this.themeOffsetTop.push(0);
-            //console.log(this.$refs.detailParams.$el.offsetTop);
-            this.themeOffsetTop.push(this.$refs.detailParams.$el.offsetTop - 48)
-            this.themeOffsetTop.push(this.$refs.detailComment.$el.offsetTop - 48)
-            this.themeOffsetTop.push(this.$refs.detailRecommend.$el.offsetTop - 48)
+            //console.log(this.themeOffsetTop);
+            this.themeOffsetTop.push(this.$refs.detailParams.$el.offsetTop - 46)
+            this.themeOffsetTop.push(this.$refs.detailComment.$el.offsetTop - 46)
+            this.themeOffsetTop.push(this.$refs.detailRecommend.$el.offsetTop - 46)
             this.themeOffsetTop.push(Number.MAX_VALUE)
         },
         selectTitle(index){
-            this.$refs.detailScroll.ScrollTo(0, -this.themeOffsetTop[index], 500)
+            this.$refs.scroll.ScrollTo(0, -this.themeOffsetTop[index], 500)
         },
         ScrollContent(position){
             //console.log(position.y);
-            this.listenScrollTheme(-position.y)
+            this.listenScrollTheme(-position.y);
+            this.IsShowBackTop =  (-position.y) > 1000 ?  true : false;
         },
         listenScrollTheme(position){
             let lenght = this.themeOffsetTop.length;
@@ -113,8 +118,22 @@ export default {
                     break;
                 }
             }
+        },
+        addToCart(){
+            //console.log("dianjile ");
+            let goods={};
+            goods.image = this.topImages[0];
+            goods.title = this.goodsInfo.title;
+            goods.desc = this.goodsInfo.desc;
+            goods.price = null;
+            goods.id = this.goodsId;
+            this.$store.dispatch('addGoodsToCart', goods)
         }
 
+    },
+    destroyed() {
+        //取消item图片加载完成的事件监听
+        this.$bus.$off('ImageLoaded', this.itemImgListener)
     }
 }
 </script>
@@ -132,6 +151,6 @@ export default {
      background: #fff;
  }
  .scroll{
-     height: calc(100% - 44px);
+     height: calc(100% - 93px);
  }
 </style>
