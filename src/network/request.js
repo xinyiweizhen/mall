@@ -3,7 +3,7 @@ export function request(config){
 
     //1.创建axios实例，方便管理baseurl等公用配置
     const instance = axios.create({
-        baseURL: 'http://123.207.32.32:8000/api/v1',
+        baseURL: 'https://www.fastmock.site/mock/4235e7201236b521a430aa43a86e2b00/api',
         timeout: 5000,
     })
     //2.拦截器的作用

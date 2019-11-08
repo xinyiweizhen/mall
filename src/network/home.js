@@ -6,6 +6,12 @@ export function getHomeData(){
 
     })
 }
+export function getHomeBanners(){
+    return request({
+        url: "/shop/banners",
+
+    })
+}
 export function getHomeGoods(type, page){
     return request({
         url: "/home/data",

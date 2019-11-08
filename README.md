@@ -1,9 +1,7 @@
 # mall
 
-## Project setup
-```
-npm install
-```
+>一个使用vue-cli3搭建的移动端商城界面的小Demo。
+##
 
 ### Compiles and hot-reloads for development
 ```

@@ -1,7 +1,7 @@
 <template>
   <div id="home">
     <nav-bar class="home-nav"><div slot="center">购物街</div></nav-bar>
-    <tab-controller :titles = "titles" @switchTab="HomeSwitchTab" ref="TabController1" v-show="IsFixed" 
+    <tab-controller :titles = "titles" @switchTab="HomeSwitchTab" ref="TabController1" v-show="IsFixed"
           class="tab-controller"/>
     <scroll class="scroll" ref="scroll" :probe-type="3" :pull-upLoad="true"
           @scroll="ScrollContent" @pullingUp="PullUpLoadMore">
@@ -28,7 +28,7 @@ import RecommendView from './childComponents/RecommendView'
 import FeatureView from "./childComponents/FeatureView"
 
 
-import { getHomeData, getHomeGoods } from 'network/home'
+import { getHomeData, getHomeGoods, getHomeBanners} from 'network/home'
 import { constants } from 'crypto';
 
 import { debounce } from 'common/utils';
@@ -54,7 +54,7 @@ export default {
         goods: {
           'pop': { page: 0, list: []},
           'new': {page: 0, list: []},
-          'sell': {page: 0, list: []}, 
+          'sell': {page: 0, list: []},
         },
         currentType: 'pop',
         IsFixed:false,
@@ -69,12 +69,12 @@ export default {
     },
     created(){
       //1.请求多个数据
-      this.initHomeData();
+      this._initHomeData();
       //2.请求商品数据
       this.initHomeGoodsData('pop');
       this.initHomeGoodsData('new');
       this.initHomeGoodsData('sell');
-      
+
     },
     mounted(){
     },
@@ -121,11 +121,14 @@ export default {
         this.tabControllerOffsetTop = this.$refs.TabController2.$el.offsetTop;
       },
       /* 请求数据相关的方法*/
-      initHomeData(){
+      _initHomeData(){
         getHomeData().then(res =>{
           //console.log(res);
-          this.banners = res.data.banner.list;
+
           this.recommends = res.data.recommend.list;
+        })
+        getHomeBanners().then(res => {
+          this.banners = res.data.list;
         })
       },
       initHomeGoodsData(type){
