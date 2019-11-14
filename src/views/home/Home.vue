@@ -7,7 +7,7 @@
           @scroll="ScrollContent" @pullingUp="PullUpLoadMore">
       <home-swiper :banners="banners" @SwiperImageLoad="SwiperImageLoaded"/>
       <recommend-view :recommends="recommends" />
-      <feature-view />
+      <!--<feature-view />-->
       <tab-controller :titles = "titles" @switchTab="HomeSwitchTab" ref="TabController2"/>
       <goods-list :goods="showGoodsType"/>
     </scroll>
@@ -29,7 +29,6 @@ import FeatureView from "./childComponents/FeatureView"
 
 
 import { getHomeData, getHomeGoods, getHomeBanners} from 'network/home'
-import { constants } from 'crypto';
 
 import { debounce } from 'common/utils';
 import { itemImgListenerMixin, backTopMixin } from "common/mixins";
