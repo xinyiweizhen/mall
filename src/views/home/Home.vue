@@ -1,14 +1,14 @@
 <template>
   <div id="home">
     <nav-bar class="home-nav"><div slot="center">购物街</div></nav-bar>
-    <tab-controller :titles = "titles" @switchTab="HomeSwitchTab" ref="TabController1" v-show="IsFixed"
+    <tab-control :titles = "titles" @switchTab="HomeSwitchTab" ref="TabController1" v-show="IsFixed"
           class="tab-controller"/>
     <scroll class="scroll" ref="scroll" :probe-type="3" :pull-upLoad="true"
           @scroll="ScrollContent" @pullingUp="PullUpLoadMore">
       <home-swiper :banners="banners" @SwiperImageLoad="SwiperImageLoaded"/>
       <recommend-view :recommends="recommends" />
       <!--<feature-view />-->
-      <tab-controller :titles = "titles" @switchTab="HomeSwitchTab" ref="TabController2"/>
+      <tab-control :titles = "titles" @switchTab="HomeSwitchTab" ref="TabController2"/>
       <goods-list :goods="showGoodsType"/>
     </scroll>
     <!--.native修饰符可以监听组件的事件--->
@@ -19,7 +19,7 @@
 <script>
 import NavBar from 'components/common/navbar/NavBar'
 import Scroll from 'components/common/scroll/Scroll'
-import TabController from 'components/content/tabcontroller/TabController'
+import TabControl from 'components/content/tabcontrol/TabControl'
 import GoodsList from 'components/content/goods/GoodsList'
 
 
@@ -28,7 +28,7 @@ import RecommendView from './childComponents/RecommendView'
 import FeatureView from "./childComponents/FeatureView"
 
 
-import { getHomeData, getHomeGoods, getHomeBanners} from 'network/home'
+import { getHomeData, getHomeGoods, getHomeBanners, getHomeQuickNav} from 'network/home'
 
 import { debounce } from 'common/utils';
 import { itemImgListenerMixin, backTopMixin } from "common/mixins";
@@ -37,7 +37,7 @@ export default {
     name: "Home",
     components:{
       NavBar,
-      TabController,
+      TabControl,
       HomeSwiper,
       RecommendView,
       FeatureView,
@@ -70,9 +70,9 @@ export default {
       //1.请求多个数据
       this._initHomeData();
       //2.请求商品数据
-      this.initHomeGoodsData('pop');
-      this.initHomeGoodsData('new');
-      this.initHomeGoodsData('sell');
+      this._initHomeGoodsData('pop');
+      this._initHomeGoodsData('new');
+      this._initHomeGoodsData('sell');
 
     },
     mounted(){
@@ -121,16 +121,16 @@ export default {
       },
       /* 请求数据相关的方法*/
       _initHomeData(){
-        getHomeData().then(res =>{
+        getHomeQuickNav().then(res =>{
           //console.log(res);
 
-          this.recommends = res.data.recommend.list;
+          this.recommends = res.data.list;
         })
         getHomeBanners().then(res => {
           this.banners = res.data.list;
         })
       },
-      initHomeGoodsData(type){
+      _initHomeGoodsData(type){
         const page = this.goods[type].page + 1;
         getHomeGoods(type, page).then(res =>{
           //console.log(res)
@@ -147,8 +147,9 @@ export default {
 
 <style scoped>
   #home{
-    /*padding-top: 44px;*/
+    /* padding-top: 44px; */
     height: 100vh;
+    width: 100vw;
     position: relative;
   }
   .home-nav{
