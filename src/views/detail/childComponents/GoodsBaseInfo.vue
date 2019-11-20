@@ -7,14 +7,16 @@
       <span v-if="goodsInfo.discount" class="discount">{{goodsInfo.discount}}</span>
     </div>
     <div class="info-other">
-      <span>{{goodsInfo.columns[0]}}</span>
-      <span>{{goodsInfo.columns[1]}}</span>
-      <span>{{goodsInfo.services[goodsInfo.services.length-1].name}}</span>
+      <!-- <span>{{goodsInfo.columns[0]}}</span> -->
+      <!-- <span>{{goodsInfo.columns[1]}}</span> -->
+      <span v-for="(item,index) in goodsInfo.columns" :key="index">
+        {{item.desc}}
+      </span>
     </div>
     <div class="info-service">
-      <span class="info-service-item" v-for="index in goodsInfo.services.length-1" :key="index">
-        <img :src="goodsInfo.services[index-1].icon">
-        <span>{{goodsInfo.services[index-1].name}}</span>
+      <span class="info-service-item" v-for="(item,index) in services" :key="index">
+        <img :src="item.icon">
+        <span>{{item.name}}</span>
       </span>
     </div>
   </div>
@@ -30,6 +32,11 @@ export default {
                 return {}
             }
         }
+    },
+    computed: {
+      services() {
+        return this.goodsInfo.services.length > 3 ? this.goodsInfo.services.splice(0, 3) : this.goodsInfo.services
+      }
     }
 }
 </script>
@@ -87,6 +94,7 @@ export default {
     display: flex;
     justify-content: space-between;
     line-height: 60px;
+    border-top: 1px solid rgba(100,100,100,.1);
   }
 
   .info-service-item img {

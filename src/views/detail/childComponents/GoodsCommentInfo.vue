@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div v-if="Object.keys(commentInfo).length !== 0" class="comment-info">
+        <div v-if="Object.keys(commentInfos).length !== 0" class="comment-info">
             <div class="info-header">
                 <div class="header-title">用户评价</div>
                 <div class="header-more">
@@ -8,18 +8,20 @@
                     <i class="arrow-right"></i>
                 </div>
             </div>
-            <div class="info-user">
-                <img :src="commentInfo.user.avatar" alt="">
-                <span>{{commentInfo.user.uname}}</span>
-            </div>
-            <div class="info-detail">
-                <p>{{commentInfo.content}}</p>
-                <div class="info-other">
-                    <span class="date">{{commentInfo.created | showDate}}</span>
-                    <span>{{commentInfo.style}}</span>
+            <div v-for="(commentInfo,index) in commentInfos.list" :key="index">
+                <div class="info-user">
+                    <img :src="commentInfo.user.avatar" alt="">
+                    <span>{{commentInfo.user.uname}}</span>
                 </div>
-                <div class="info-imgs">
-                    <img :src="item" v-for="(item, index) in commentInfo.images" :key="index">
+                <div class="info-detail">
+                    <p>{{commentInfo.content}}</p>
+                    <div class="info-other">
+                        <span class="date">{{commentInfo.created | showDate}}</span>
+                        <span>{{commentInfo.style}}</span>
+                    </div>
+                    <div class="info-imgs">
+                        <img :src="item" v-for="(item, index) in commentInfo.images" :key="index">
+                    </div>
                 </div>
             </div>
         </div>
@@ -32,7 +34,7 @@ import {formatDate} from 'common/utils'
     export default {
         name: "GoodsCommentInfo",
         props: {
-            commentInfo:{
+            commentInfos:{
                 type: Object,
                 default(){
                     return {}

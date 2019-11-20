@@ -17,14 +17,14 @@ export function getRecommendData() {
 
 //封装商品信息的对象，把从服务器请求的分散的商品信息整合到一个对象中，面向对象开发
 export class GoodsInfo {
-    constructor(itemInfo, columns, services) {
+    constructor(itemInfo, itemServices, normalPrice) {
       this.title = itemInfo.title
       this.desc = itemInfo.desc
-      this.newPrice = itemInfo.price
-      this.oldPrice = itemInfo.oldPrice
-      this.discount = itemInfo.discountDesc
-      this.columns = columns
-      this.services = services
+      this.newPrice = normalPrice.nowPrice
+      this.oldPrice = normalPrice.oldPrice
+      this.discount = normalPrice.priceTags[0] && normalPrice.priceTags[0].text
+      this.columns = itemServices.columns
+      this.services = itemServices.services
       this.realPrice = itemInfo.lowNowPrice
     }
 }

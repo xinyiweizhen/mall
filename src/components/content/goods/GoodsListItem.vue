@@ -3,7 +3,7 @@
         <img v-lazy="showImage" :key="showImage" alt="" @load="imageLoad">
         <div class="goods-info">
             <p>{{goodsItem.title}}</p>
-            <span class="price">{{goodsItem.price}}</span>
+            <span class="price">{{'￥' + goodsItem.price}}</span>
             <span class="like">{{goodsItem.cfav}}</span>
         </div>
     </div>
@@ -27,7 +27,7 @@ export default {
     },
     computed:{
       showImage(){
-          return  this.goodsItem.image || this.goodsItem.show.img
+          return  this.goodsItem.image || this.goodsItem.img
       }
     },
     methods: {

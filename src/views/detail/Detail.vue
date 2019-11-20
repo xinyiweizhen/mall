@@ -7,7 +7,7 @@
         <shop-base-info :shopInfo="shopInfo"/>
         <goods-detail-info :detail-info="detailInfo" @imgLoad="imgLoaded"/>
         <goods-params-info :param-info="goodsParamsInfo" ref="detailParams"/>
-        <goods-comment-info :comment-info="goodsCommentInfo" ref="detailComment"/>
+        <goods-comment-info :comment-infos="goodsCommentInfo" ref="detailComment"/>
          <goods-list :goods="recommendGoods" ref="detailRecommend" />
       </scroll>
         <detail-bottom-bar @addToCart="addToCart"/>
@@ -68,12 +68,12 @@ export default {
         this.goodsId=this.$route.params.goodsId;
         //2.请求数据
         getDetailData(this.goodsId).then((res)=>{
-            //console.log(res);
-            const data = res.result;
+            const data = res.data.result;
+            // console.log(data);
             //1.获取商品详情轮播图的图片
-            this.topImages = data.itemInfo.topImages;
+            this.topImages = data.topImages;
             //2.获取商品的信息
-            this.goodsInfo = new GoodsInfo(data.itemInfo, data.columns, data.shopInfo.services);
+            this.goodsInfo = new GoodsInfo(data.itemInfo, data.itemServices, data.normalPrice);
             //3.获取商家的信息
             this.shopInfo = new ShopInfo(data.shopInfo);
             //4.获取商品的详情信息
@@ -81,9 +81,9 @@ export default {
             //5.获取商品参数信息
             this.goodsParamsInfo = new GoodsParams(data.itemParams.info, data.itemParams.rule);
             //6.获取商品评论信息
-            if(data.rate.list)this.goodsCommentInfo = data.rate.list[0];
+            if(data.rateInfo.list)this.goodsCommentInfo = data.rateInfo;
         });
-        //3.请求推荐
+        // 3.请求推荐
         getRecommendData().then((res)=>{
             //console.log(res);
             this.recommendGoods = res.data.list;

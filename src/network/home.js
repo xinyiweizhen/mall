@@ -6,9 +6,15 @@ export function getHomeData(){
 
     })
 }
+export function getHomeQuickNav(){
+    return request({
+        url: "/home/quicknav",
+
+    })
+}
 export function getHomeBanners(){
     return request({
-        url: "/shop/banners",
+        url: "/home/banners",
 
     })
 }

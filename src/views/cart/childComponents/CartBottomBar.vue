@@ -3,7 +3,7 @@
         <CheckButton class="select-all" @checkBtnClick="checkAllClick" v-model="isSelectAll"></CheckButton>
         <span>全选</span>
         <span class="total-price">合计: ¥{{totalPrice}}</span>
-        <span class="buy-product">去计算({{}})</span>
+        <span class="buy-product">去结算({{checkNumber}})</span>
     </div>
 </template>
 
@@ -26,6 +26,14 @@
                 }).reduce((preTotal, item) =>{
                     return preTotal + item.price * item.count
                 }, 0).toFixed(2)
+            },
+            checkNumber() {
+                const cartList = this.cartList
+                return cartList.filter(item =>{
+                    return item.check === true
+                }).reduce((number, item) =>{
+                    return number + item.count
+                }, 0)
             },
             isSelectAll(){
                 if(this.cartList.length===0)return false;
@@ -83,7 +91,7 @@
     }
 
     .bottom-menu .buy-product {
-        background-color: orangered;
+        background-image: linear-gradient(90deg,#ff5777,#ff468f);
         color: #fff;
         width: 100px;
         height: 44px;
