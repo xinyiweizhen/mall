@@ -1,4 +1,5 @@
 # mall
+[预览地址](https://xinyiweizhen.github.io/)
 
 >一个使用vue-cli3搭建的移动端商城界面的小Demo。数据暂时使用在线mock(easy-mock)，后续会开发真实的后台接口。
 ## 安装&构建
@@ -37,7 +38,7 @@ npm run build
 
 ```
 ## 效果截图
-<figure class="half">
+<figure class="third">
     <img src="http://static.cn-yoy.com/github/1.png">
     <img src="http://static.cn-yoy.com/github/2.png">
     <img src="http://static.cn-yoy.com/github/3.png">
