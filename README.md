@@ -39,9 +39,7 @@ npm run build
 ```
 ## 效果截图
 <figure class="third">
-    <img src="http://static.cn-yoy.com/github/1.png">
-    <img src="http://static.cn-yoy.com/github/2.png">
-    <img src="http://static.cn-yoy.com/github/3.png">
+    <img src="http://static.cn-yoy.com/github/1.png"><img src="http://static.cn-yoy.com/github/2.png"><img src="http://static.cn-yoy.com/github/3.png">
 </figure>
 <figure class="third">
     <img src="http://static.cn-yoy.com/github/4.png">
