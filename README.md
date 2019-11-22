@@ -41,14 +41,18 @@ npm run build
     <img src="http://static.cn-yoy.com/github/1.png">
     <img src="http://static.cn-yoy.com/github/2.png">
     <img src="http://static.cn-yoy.com/github/3.png">
+</figure>
+<figure class="third">
     <img src="http://static.cn-yoy.com/github/4.png">
     <img src="http://static.cn-yoy.com/github/5.png">
     <img src="http://static.cn-yoy.com/github/6.png">
 </figure>
-<figure class="half">
+<figure class="third">
     <img src="http://static.cn-yoy.com/github/7.png">
     <img src="http://static.cn-yoy.com/github/8.png">
     <img src="http://static.cn-yoy.com/github/9.png">
+</figure>
+<figure class="half">
     <img src="http://static.cn-yoy.com/github/10.png">
     <img src="http://static.cn-yoy.com/github/11.png">
 </figure>
