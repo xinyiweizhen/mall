@@ -1,6 +1,6 @@
 # mall
 
->一个使用vue-cli3搭建的移动端商城界面的小Demo。数据使用了
+>一个使用vue-cli3搭建的移动端商城界面的小Demo。数据暂时使用在线mock(easy-mock)，后续会开发真实的后台接口。
 ## 安装&构建
 ```
 ### 安装依赖
@@ -14,7 +14,7 @@ npm run build
 
 ```
 
-### 项目目录
+## 项目目录
 ```
 ├── README.md                            # 项目说明
 ├── babel.config.js                      # babel配置文件
@@ -36,3 +36,19 @@ npm run build
 │   └── views                            # 视图目录
 
 ```
+## 效果截图
+<figure class="half">
+    <img src="http://static.cn-yoy.com/github/1.png">
+    <img src="http://static.cn-yoy.com/github/2.png">
+    <img src="http://static.cn-yoy.com/github/3.png">
+    <img src="http://static.cn-yoy.com/github/4.png">
+    <img src="http://static.cn-yoy.com/github/5.png">
+    <img src="http://static.cn-yoy.com/github/6.png">
+</figure>
+<figure class="half">
+    <img src="http://static.cn-yoy.com/github/7.png">
+    <img src="http://static.cn-yoy.com/github/8.png">
+    <img src="http://static.cn-yoy.com/github/9.png">
+    <img src="http://static.cn-yoy.com/github/10.png">
+    <img src="http://static.cn-yoy.com/github/11.png">
+</figure>

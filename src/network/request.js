@@ -4,7 +4,7 @@ export function request(config){
     //1.创建axios实例，方便管理baseurl等公用配置
     const instance = axios.create({
         baseURL: ' https://www.easy-mock.com/mock/5dd4215c39123c44ff6cc801/mall',
-        timeout: 5000,
+        timeout: 60000,
     })
     //2.拦截器的作用
     // 2.1.请求拦截的作用

@@ -2,7 +2,7 @@
   <div>
       <nav-bar>
           <div slot="left" class="back" @click="backClick">
-              <img src="~assets/img/common/back.svg" alt="" >
+              <img src="https://s10.mogucdn.com/mlcdn/c45406/190819_82kf4j7kdldbf0654hf987dk24kj4_10x18.png" alt="" >
           </div>
           <div slot="center" class="title">
               <div v-for="(item,index) in titles" :key="index"
@@ -44,8 +44,11 @@ export default {
 </script>
 
 <style scoped>
-    .back img{
+    .back>img{
       margin-top: 10px;
+      width: 8px;
+      height: 10px;
+      transform: rotate(180deg);
     }
     .title{
         display: flex;
